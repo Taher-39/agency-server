@@ -1,6 +1,7 @@
 const SSLCommerzPayment = require("sslcommerz-lts");
 const User = require("../Models/authModel");
 const { v4: uuidv4 } = require("uuid");
+const { getFormattedDateTime } = require("../utils/dateTimeUtils");
 require("dotenv").config();
 
 const store_id = process.env.STORE_ID;
@@ -51,7 +52,7 @@ const addMoney = async (req, res) => {
       payableAmount: amount,
       paidStatus: false,
       tran_id: transactionId,
-      pay_initiat: new Date().toLocaleString(),
+      pay_initiat: getFormattedDateTime(),
     };
 
     user.paymentInfo.push(newPayment);
