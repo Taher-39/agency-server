@@ -2,13 +2,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const fileUpload = require("express-fileupload");
 const port = process.env.PORT || 8080;
 require("dotenv").config();
 const dbConnect = require("./config/dbConnect");
 const authRoutes = require("./Routes/authRoutes");
 const serviceRoutes = require("./Routes/serviceRoutes");
-const orderRoutes = require("./Routes/orderRoutes");
+const orderRoutes = require("./Routes/authRoutes");
 const paymentRoutes = require("./Routes/paymentRoutes");
 const feedbackRoutes = require("./Routes/feedbackRoutes");
 const userRoutes = require("./Routes/userRoutes");
@@ -17,7 +16,6 @@ const emailRoutes = require("./Routes/emailRoutes");
 //middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(fileUpload());
 
 // Database connection
 dbConnect();

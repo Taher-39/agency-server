@@ -1,4 +1,4 @@
-const UploadOrder = require("../models/orderModel");
+const UploadOrder = require("../Models/orderModel");
 
 const uploadOrderController = async (req, res) => {
   try {
