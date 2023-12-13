@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const {
-  uploadOrder,
   getUserOrders,
   getTotalOrders,
   updateOrderStatus,
+  uploadOrderController,
 } = require("../controllers/orderController");
 
-router.post("/uploadOrder", uploadOrder);
+router.post("/uploadOrder", uploadOrderController);
 
 router.get("/getUserOrders", getUserOrders);
 

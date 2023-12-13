@@ -1,19 +1,9 @@
 const UploadOrder = require("../models/orderModel");
 
-const uploadOrder = async (req, res) => {
+const uploadOrderController = async (req, res) => {
   try {
-    const file = req.files.file;
     const { name, email, description, status, service, option, price } =
       req.body;
-
-    const imgData = file.data;
-    const incImg = imgData.toString("base64");
-
-    const image = {
-      contentType: file.mimetype,
-      size: file.size,
-      img: Buffer.from(incImg, "base64"),
-    };
 
     const newOrder = new UploadOrder({
       name,
@@ -23,7 +13,6 @@ const uploadOrder = async (req, res) => {
       service,
       option,
       price,
-      image,
     });
 
     await newOrder.save();
@@ -39,7 +28,7 @@ const getUserOrders = async (req, res) => {
   const { email } = req.query;
 
   try {
-    const userOrders = await UploadOrder.find({ email }); // Find orders by user email
+    const userOrders = await UploadOrder.find({ email });
 
     res.status(200).json(userOrders);
   } catch (error) {
@@ -93,7 +82,7 @@ const hasUserOrdered = async (email) => {
 };
 
 module.exports = {
-  uploadOrder,
+  uploadOrderController,
   getUserOrders,
   getTotalOrders,
   updateOrderStatus,

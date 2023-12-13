@@ -97,7 +97,7 @@ const paymentSuccess = async (req, res) => {
 
     await user.save();
     return res.redirect(
-      `http://localhost:3000/success-screen?transactionId=${transactionId}`
+      `${process.env.CLIENT_URL}/success-screen?transactionId=${transactionId}`
     );
   } catch (error) {
     return res.status(500).json({ error: "Internal Server Error" });
@@ -122,7 +122,7 @@ const paymentFail = async (req, res) => {
 
     await user.save();
 
-    return res.redirect("http://localhost:3000/fail-screen");
+    return res.redirect(`${process.env.CLIENT_URL}/fail-screen`);
   } catch (error) {
     return res.status(500).json({ error: "Internal Server Error" });
   }
