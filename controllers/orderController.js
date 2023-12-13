@@ -4,6 +4,15 @@ const uploadOrderController = async (req, res) => {
   try {
     const { name, email, description, status, service, option, price } =
       req.body;
+    const file = req.files.file;
+
+    const encryptedImg = file.data.toString("base64");
+
+    const image = {
+      contentType: file.mimetype,
+      size: file.size,
+      img: Buffer.from(encryptedImg, "base64"),
+    };
 
     const newOrder = new UploadOrder({
       name,
@@ -13,6 +22,7 @@ const uploadOrderController = async (req, res) => {
       service,
       option,
       price,
+      image,
     });
 
     await newOrder.save();

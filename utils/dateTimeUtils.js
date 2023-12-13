@@ -15,8 +15,6 @@ function getFormattedDateTime() {
   return currentDateTime.toLocaleString("en-US", options);
 }
 
-console.log(getFormattedDateTime());
-
 module.exports = {
   getFormattedDateTime,
 };
