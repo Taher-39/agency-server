@@ -1,8 +1,8 @@
 const User = require("../Models/authModel");
-const bcrypt = require("bcryptjs");
-const { transporter } = require("../utils/transporter");
-const crypto = require("crypto");
 const PasswordReset = require("../Models/passwordResetModel");
+const { transporter } = require("../utils/transporter");
+const bcrypt = require("bcryptjs");
+const crypto = require("node:crypto");
 
 const registerUser = async (req, res) => {
   try {
