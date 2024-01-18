@@ -1,19 +1,12 @@
-const nodemailer = require("nodemailer");
+const { transporter } = require("../utils/transporter");
+
 require("dotenv").config();
 
 const sendEmail = async (req, res) => {
   const { email, subject, description } = req.body;
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.company_email,
-        pass: process.env.company_email_app_pass,
-      },
-    });
+    
     const mailOptions = {
       from: email,
       to: process.env.company_email,

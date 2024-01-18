@@ -4,7 +4,7 @@ const {
   addMoney,
   paymentSuccess,
   paymentFail,
-} = require("../controllers/paymentController");
+} = require("../Controllers/paymentController");
 
 router.post("/addMoney", addMoney);
 router.post("/success", paymentSuccess);

@@ -3,9 +3,9 @@ const router = express.Router();
 const {
   getUserOrders,
   getTotalOrders,
-  updateOrderStatus,
   uploadOrderController,
-} = require("../controllers/orderController");
+  updateOrderStatus,
+} = require("../Controllers/orderController");
 
 router.post("/upload-order", uploadOrderController);
 router.get("/get-user-orders", getUserOrders);

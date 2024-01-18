@@ -3,7 +3,7 @@ const {
   getAllUsers,
   updateAdminFeature,
   getUserByEmail,
-} = require("../controllers/userController");
+} = require("../Controllers/userController");
 
 const router = express.Router();
 

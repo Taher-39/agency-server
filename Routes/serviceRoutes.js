@@ -1,14 +1,18 @@
 const express = require("express");
+const {
+  addService,
+  getAllServices,
+  deleteServiceById,
+} = require("../Controllers/serviceController");
 const router = express.Router();
-const serviceController = require("../controllers/serviceController");
 
 // Route to add a new service
-router.post("/addService", serviceController.addService);
+router.post("/add-service", addService);
 
 // Route to get all services
-router.get("/getAllServices", serviceController.getAllServices);
+router.get("/getAllServices", getAllServices);
 
 // Route to delete a service by ID
-router.delete("/deleteService/:id", serviceController.deleteServiceById);
+router.delete("/deleteService/:id", deleteServiceById);
 
 module.exports = router;

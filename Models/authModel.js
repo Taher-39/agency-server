@@ -20,10 +20,15 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   paymentInfo: [paymentSchema],
-  // verified: { type: Boolean, default: false },
-  // verificationCode: { type: String },
+
+  emailVerificationToken: { type: String },
+  verified: { type: Boolean, default: false },
 });
 
+
+
 const User = mongoose.model("User", userSchema);
+
+
 
 module.exports = User;

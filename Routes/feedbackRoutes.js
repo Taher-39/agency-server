@@ -3,7 +3,7 @@ const router = express.Router();
 const {
   postFeedback,
   getFeedback,
-} = require("../controllers/feedbackController");
+} = require("../Controllers/feedbackController");
 
 router.post("/post-feedback/:id", postFeedback);
 
