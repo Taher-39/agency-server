@@ -3,7 +3,7 @@ const {
   addService,
   getAllServices,
   deleteServiceById,
-} = require("../Controllers/serviceController");
+} = require("../controllers/serviceController");
 const router = express.Router();
 
 // Route to add a new service

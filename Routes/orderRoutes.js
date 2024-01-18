@@ -5,7 +5,7 @@ const {
   getTotalOrders,
   uploadOrderController,
   updateOrderStatus,
-} = require("../Controllers/orderController");
+} = require("../controllers/orderController");
 
 router.post("/upload-order", uploadOrderController);
 router.get("/get-user-orders", getUserOrders);
