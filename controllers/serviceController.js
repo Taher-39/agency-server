@@ -1,41 +1,43 @@
 const mongoose = require("mongoose");
 const Service = require("../Models/serviceModel");
 
-// Controller function to add a new service
 const addService = async (req, res) => {
   try {
-    const { title, description } = req.body;
-    console.log(req.body);
-    const file = req.files.file;
+    const { name, description, prices } = req.body;
+    const defaultSubcategory = "Default Subcategory";
+    const defaultPrice = 0;
 
-    const encryptedImg = file.data.toString("base64");
+    const updatedPrices = prices.map(({ name, price }) => ({
+      subcategory: (name ? name.trim() : "") || defaultSubcategory,
+      price: price || defaultPrice,
+    }));
 
-    const image = {
-      contentType: file.mimetype,
-      size: file.size,
-      img: Buffer.from(encryptedImg, "base64"),
-    };
+    const newService = new Service({
+      name,
+      description,
+      prices: updatedPrices,
+    });
 
-    const newService = new Service({ title, description, image });
-    // const newService = new Service({ title, description });
     await newService.save();
 
     res.status(201).json({ message: "Service added successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Failed to add service" });
   }
 };
 
+
+
 // Controller function to get services
-const getAllServices = async (req, res) => {
+const getLimitedServices = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const perPage = 4; // Adjust the number of services per page as needed
+    const perPage = 4;
     const skip = (page - 1) * perPage;
 
     const searchTerm = req.query.search || "";
-    const regex = new RegExp(searchTerm, "i");// Case-insensitive search
+    const regex = new RegExp(searchTerm, "i");
 
     const totalServices = await Service.countDocuments({
       $or: [{ title: regex }, { description: regex }],
@@ -55,7 +57,14 @@ const getAllServices = async (req, res) => {
   }
 };
 
-
+const getAllServices = async (req, res) => {
+  try {
+    const services = await Service.find()
+    res.status(200).json({ services });
+  } catch (error) {
+    res.status(500).json({ message: "Error getting services", error: error.message });
+  }
+};
 
 // Controller function to delete a service by ID
 const deleteServiceById = async (req, res) => {
@@ -80,4 +89,4 @@ const deleteServiceById = async (req, res) => {
   }
 };
 
-module.exports = { addService, getAllServices, deleteServiceById };
+module.exports = { addService, getAllServices, deleteServiceById, getLimitedServices };

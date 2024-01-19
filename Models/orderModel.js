@@ -1,20 +1,17 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const UploadOrderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
-  status: { type: String, required: true },
+  description: { type: String, required: true },
+  status: { type: String, default: 'pending' },
   service: { type: String, required: true },
   option: { type: String, required: true },
   price: { type: Number, required: true },
-  description: { type: String, required: true },
-  image: {
-    contentType: { type: String, required: true },
-    size: { type: Number, required: true },
-    img: { type: Buffer, required: true },
-  },
+  file: { type: String, required: true },
 });
 
-const UploadOrder = mongoose.model("UploadOrder", UploadOrderSchema);
+const Order = mongoose.model('Order', orderSchema);
 
-module.exports = UploadOrder;
+module.exports = Order;
+

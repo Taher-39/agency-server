@@ -3,11 +3,12 @@ const router = express.Router();
 const {
   getUserOrders,
   getTotalOrders,
-  uploadOrderController,
   updateOrderStatus,
+  uploadOrder,
 } = require("../controllers/orderController");
+const upload = require("../Middleware/multerConfig");
 
-router.post("/upload-order", uploadOrderController);
+router.post("/upload-order", upload.single('file'), uploadOrder);
 router.get("/get-user-orders", getUserOrders);
 router.get("/get-total-orders", getTotalOrders);
 router.patch("/update-status/:id", updateOrderStatus);

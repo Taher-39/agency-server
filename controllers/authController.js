@@ -90,7 +90,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 const updateAmount = async (req, res) => {
   const { userId } = req.params;
   const { price } = req.body;

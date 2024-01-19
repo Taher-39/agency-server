@@ -1,36 +1,27 @@
-const UploadOrder = require("../Models/orderModel");
+const Order = require('../Models/orderModel');
 
-const uploadOrderController = async (req, res) => {
+const uploadOrder = async (req, res) => {
   try {
-    const { name, email, description, status, service, option, price } =
-      req.body;
-    const file = req.files.file;
+    const { name, email, description, status, service, option, price } = req.body;
 
-    const encryptedImg = file.data.toString("base64");
+    const file = req.file.path; // Multer will add 'file' property to the request object
 
-    const image = {
-      contentType: file.mimetype,
-      size: file.size,
-      img: Buffer.from(encryptedImg, "base64"),
-    };
-
-    const newOrder = new UploadOrder({
+    const newOrder = new Order({
       name,
       email,
-      status,
       description,
+      status,
       service,
       option,
       price,
-      image,
+      file,
     });
 
     await newOrder.save();
-    res.json({ message: "Order uploaded successfully" });
+
+    res.json({ message: 'Order uploaded successfully' });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error uploading order", message: error.message });
+    res.status(500).json({ error: 'Error uploading order', message: error.message });
   }
 };
 
@@ -38,7 +29,7 @@ const getUserOrders = async (req, res) => {
   const { email } = req.query;
 
   try {
-    const userOrders = await UploadOrder.find({ email });
+    const userOrders = await Order.find({ email });
 
     res.status(200).json(userOrders);
   } catch (error) {
@@ -50,7 +41,7 @@ const getUserOrders = async (req, res) => {
 
 const getTotalOrders = async (req, res) => {
   try {
-    const totalOrders = await UploadOrder.find();
+    const totalOrders = await Order.find();
     res.json(totalOrders);
   } catch (error) {
     res
@@ -64,7 +55,7 @@ const updateOrderStatus = async (req, res) => {
   const { status } = req.body;
 
   try {
-    const updatedOrder = await UploadOrder.findByIdAndUpdate(
+    const updatedOrder = await Order.findByIdAndUpdate(
       id,
       { $set: { status } },
       { new: true }
@@ -84,7 +75,7 @@ const updateOrderStatus = async (req, res) => {
 
 const hasUserOrdered = async (email) => {
   try {
-    const orders = await UploadOrder.find({ email: email });
+    const orders = await Order.find({ email: email });
     return orders.length > 0;
   } catch (error) {
     throw new Error("Error checking user orders");
@@ -92,7 +83,7 @@ const hasUserOrdered = async (email) => {
 };
 
 module.exports = {
-  uploadOrderController,
+  uploadOrder,
   getUserOrders,
   getTotalOrders,
   updateOrderStatus,
