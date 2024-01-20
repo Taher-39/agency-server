@@ -101,8 +101,15 @@ const updateAmount = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const currentWalletPrice = Number(user.amount) - Number(price);
-    user.amount = currentWalletPrice;
+    // Ensure that the price is a valid number
+    const priceValue = parseFloat(price);
+
+    if (isNaN(priceValue) || priceValue < 0) {
+      return res.status(400).json({ message: "Invalid price value" });
+    }
+
+    // Deduct the price from the user's amount
+    user.amount -= priceValue;
 
     await user.save();
 
@@ -115,6 +122,7 @@ const updateAmount = async (req, res) => {
       .json({ message: "Could not update amount", error: error.message });
   }
 };
+
 
 const changeName = async (req, res) => {
   try {

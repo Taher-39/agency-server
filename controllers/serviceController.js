@@ -27,9 +27,6 @@ const addService = async (req, res) => {
   }
 };
 
-
-
-// Controller function to get services
 const getLimitedServices = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -39,15 +36,21 @@ const getLimitedServices = async (req, res) => {
     const searchTerm = req.query.search || "";
     const regex = new RegExp(searchTerm, "i");
 
+    const sortBy = req.query.sortBy || "uploadDate";
+    const sortOrder = req.query.sortOrder || "desc";
+
     const totalServices = await Service.countDocuments({
       $or: [{ title: regex }, { description: regex }],
     });
 
     const totalPages = Math.ceil(totalServices / perPage);
 
+    const sortOptions = { [sortBy]: sortOrder === "asc" ? 1 : -1 };
+
     const services = await Service.find({
       $or: [{ title: regex }, { description: regex }],
     })
+      .sort(sortOptions)
       .skip(skip)
       .limit(perPage);
 
@@ -56,6 +59,7 @@ const getLimitedServices = async (req, res) => {
     res.status(500).json({ message: "Error getting services", error: error.message });
   }
 };
+
 
 const getAllServices = async (req, res) => {
   try {

@@ -1,10 +1,13 @@
 const Order = require('../Models/orderModel');
+const Service = require('../Models/serviceModel');
 
 const uploadOrder = async (req, res) => {
   try {
     const { name, email, description, status, service, option, price } = req.body;
 
-    const file = req.file.path; // Multer will add 'file' property to the request object
+    const file = req.file.path;
+
+    await Service.updateOne({ _id: service }, { $inc: { orderCount: 1 } });
 
     const newOrder = new Order({
       name,
@@ -25,19 +28,35 @@ const uploadOrder = async (req, res) => {
   }
 };
 
+
 const getUserOrders = async (req, res) => {
   const { email } = req.query;
 
   try {
     const userOrders = await Order.find({ email });
 
-    res.status(200).json(userOrders);
+    // Fetch service and option details for each order
+    const ordersWithDetails = await Promise.all(
+      userOrders.map(async (order) => {
+        const service = await Service.findById(order.service);
+        const option = service.prices.find((price) => price._id.toString() === order.option.toString());
+
+        return {
+          ...order.toObject(),
+          serviceName: service.name,
+          optionName: option.subcategory,
+        };
+      })
+    );
+
+    res.status(200).json(ordersWithDetails);
   } catch (error) {
     res
       .status(500)
       .json({ message: "Could not fetch user orders", error: error.message });
   }
 };
+
 
 const getTotalOrders = async (req, res) => {
   try {
