@@ -7,8 +7,8 @@ const addService = async (req, res) => {
     const defaultSubcategory = "Default Subcategory";
     const defaultPrice = 0;
 
-    const updatedPrices = prices.map(({ name, price }) => ({
-      subcategory: (name ? name.trim() : "") || defaultSubcategory,
+    const updatedPrices = prices.map(({ subcategory, price }) => ({
+      subcategory: (subcategory ? subcategory.trim() : defaultSubcategory),
       price: price || defaultPrice,
     }));
 
@@ -26,6 +26,7 @@ const addService = async (req, res) => {
     res.status(500).json({ message: "Failed to add service" });
   }
 };
+
 
 const getLimitedServices = async (req, res) => {
   try {
