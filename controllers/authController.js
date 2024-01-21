@@ -123,7 +123,6 @@ const updateAmount = async (req, res) => {
   }
 };
 
-
 const changeName = async (req, res) => {
   try {
     const { userId, newName } = req.body;
@@ -226,6 +225,18 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const deleteAccount = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    await User.findByIdAndDelete(userId);
+
+    res.status(200).json({ message: "Account deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting account", error: error.message });
+  }
+};
+
 
 module.exports = {
   registerUser,
@@ -235,5 +246,6 @@ module.exports = {
   changePassword,
   verifyEmail,
   requestPasswordReset,
-  resetPassword
+  resetPassword,
+  deleteAccount
 };

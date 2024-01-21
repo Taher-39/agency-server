@@ -12,5 +12,6 @@ router.post("/request-password-reset", authController.requestPasswordReset);
 router.post("/reset-password", authController.resetPassword);
 
 router.put("/users/:userId/update-amount", authController.updateAmount);
+router.delete("/delete-account/:userId", authController.deleteAccount);
 
 module.exports = router;
