@@ -3,9 +3,8 @@ const Service = require('../Models/serviceModel');
 
 const uploadOrder = async (req, res) => {
   try {
+    console.log(req.body)
     const { name, email, description, status, service, option, price } = req.body;
-
-    const file = req.file.path;
 
     await Service.updateOne({ _id: service }, { $inc: { orderCount: 1 } });
 
@@ -17,7 +16,6 @@ const uploadOrder = async (req, res) => {
       service,
       option,
       price,
-      file,
     });
 
     await newOrder.save();

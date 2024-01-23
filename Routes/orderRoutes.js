@@ -6,9 +6,9 @@ const {
   updateOrderStatus,
   uploadOrder,
 } = require("../controllers/orderController");
-const upload = require("../Middleware/multerConfig");
+// const upload = require("../Middleware/multerConfig");
 
-router.post("/upload-order", upload.single('file'), uploadOrder);
+router.post("/upload-order", uploadOrder);
 router.get("/get-user-orders", getUserOrders);
 router.get("/get-total-orders", getTotalOrders);
 router.patch("/update-status/:id", updateOrderStatus);

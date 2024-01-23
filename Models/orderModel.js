@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
   service: { type: String, required: true },
   option: { type: String, required: true },
   price: { type: Number, required: true },
-  file: { type: String, required: true },
+  // file: { type: String },
 });
 
 const Order = mongoose.model('Order', orderSchema);
