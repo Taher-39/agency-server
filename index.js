@@ -12,6 +12,7 @@ const paymentRoutes = require("./Routes/paymentRoutes");
 const feedbackRoutes = require("./Routes/feedbackRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const emailRoutes = require("./Routes/emailRoutes");
+const joinUsRoutes = require("./Routes/joinUsRoutes");
 
 //middleware
 app.use(cors());
@@ -28,6 +29,7 @@ app.use("/payment", paymentRoutes);
 app.use("/feedback", feedbackRoutes);
 app.use("/users", userRoutes);
 app.use("/email", emailRoutes);
+app.use("/member", joinUsRoutes);
 
 app.get("/", (req, res) => {
   res.send("connected");

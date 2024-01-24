@@ -33,9 +33,8 @@ const getUserOrders = async (req, res) => {
   try {
     const userOrders = await Order.find({ email });
 
-    // Fetch service and option details for each order
     const ordersWithDetails = await Promise.all(
-      userOrders.map(async (order) => {
+      userOrders?.map(async (order) => {
         const service = await Service.findById(order.service);
         const option = service.prices.find((price) => price._id.toString() === order.option.toString());
 
@@ -58,8 +57,22 @@ const getUserOrders = async (req, res) => {
 
 const getTotalOrders = async (req, res) => {
   try {
-    const totalOrders = await Order.find();
-    res.json(totalOrders);
+    const totalUserOrders = await Order.find();
+
+    const ordersWithDetails = await Promise.all(
+      totalUserOrders?.map(async (order) => {
+        const service = await Service.findById(order.service);
+        const option = service.prices.find((price) => price._id.toString() === order.option.toString());
+
+        return {
+          ...order.toObject(),
+          serviceName: service.name,
+          optionName: option.subcategory,
+        };
+      })
+    );
+
+    res.status(200).json(ordersWithDetails);
   } catch (error) {
     res
       .status(500)
@@ -98,6 +111,33 @@ const hasUserOrdered = async (email) => {
     throw new Error("Error checking user orders");
   }
 };
+const getOrderDetails = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+
+    const orderDetails = await Order.findById(orderId);
+
+    if (!orderDetails) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    const service = await Service.findById(orderDetails.service);
+    const option = service.prices.find((price) => price._id.toString() === orderDetails.option.toString());
+
+    const userOrderDetails = {
+      ...orderDetails.toObject(),
+      serviceName: service.name,
+      duration: option.duration,
+      optionName: option.subcategory,
+    };
+
+    res.status(200).json(userOrderDetails);
+
+  } catch (error) {
+    console.error("Error fetching order details:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 module.exports = {
   uploadOrder,
@@ -105,4 +145,5 @@ module.exports = {
   getTotalOrders,
   updateOrderStatus,
   hasUserOrdered,
+  getOrderDetails
 };

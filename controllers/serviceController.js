@@ -6,10 +6,12 @@ const addService = async (req, res) => {
     const { name, description, prices } = req.body;
     const defaultSubcategory = "Default Subcategory";
     const defaultPrice = 0;
+    const defaultDuration = 1;
 
-    const updatedPrices = prices.map(({ subcategory, price }) => ({
+    const updatedPrices = prices?.map(({ subcategory, price, duration }) => ({
       subcategory: (subcategory ? subcategory.trim() : defaultSubcategory),
       price: price || defaultPrice,
+      duration: duration || defaultDuration,
     }));
 
     const newService = new Service({
@@ -71,7 +73,6 @@ const getAllServices = async (req, res) => {
   }
 };
 
-// Controller function to delete a service by ID
 const deleteServiceById = async (req, res) => {
   try {
     const { id } = req.params;

@@ -37,8 +37,7 @@ const postFeedback = async (req, res) => {
 const getFeedback = async (req, res) => {
   try {
     const reviews = await Feedback.find({}).populate("user", "name");
-
-    const feedbackData = reviews.map((feedback) => ({
+    const feedbackData = reviews?.map((feedback) => ({
       name: feedback.user.name,
       company: feedback.company,
       comment: feedback.comment,
