@@ -36,7 +36,7 @@ const postFeedback = async (req, res) => {
 
 const getFeedback = async (req, res) => {
   try {
-    const reviews = await Feedback.find({}).populate("user", "name");
+    const reviews = await Feedback.find({}).populate("user", "name").sort({ createdAt: -1 });
     const feedbackData = reviews?.map((feedback) => ({
       name: feedback.user.name,
       company: feedback.company,
@@ -49,5 +49,6 @@ const getFeedback = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 module.exports = { postFeedback, getFeedback };

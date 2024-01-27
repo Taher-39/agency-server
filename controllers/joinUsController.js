@@ -43,7 +43,6 @@ const getMembers = async (req, res) => {
             email: member.user.email,
             member: member
         }));
-        console.log("members", teamMembers);
 
         res.status(200).json({ teamMembers });
     } catch (error) {
